@@ -43,7 +43,9 @@
 			[specifiers addObject:spec];
 		}
 
-		[specifiers addObject:[PSSpecifier emptyGroupSpecifier]];
+		PSSpecifier *footerGroup = [PSSpecifier emptyGroupSpecifier];
+		[footerGroup setProperty:@"© 2026 Qn (Đạt Nguyễn)" forKey:@"footerText"];
+		[specifiers addObject:footerGroup];
 		PSSpecifier *source = [PSSpecifier preferenceSpecifierNamed:@"💻 Source Code" target:self set:nil get:nil detail:nil cell:PSButtonCell edit:nil];
 		source.buttonAction = @selector(openSourceCode:);
 		[specifiers addObject:source];
@@ -79,7 +81,7 @@
 }
 
 - (void)openSourceCode:(PSSpecifier *)specifier {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/qnblackcat/AutoAnswer9"] options:@{} completionHandler:nil];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/qnblackcat/AutoPickUp"] options:@{} completionHandler:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
