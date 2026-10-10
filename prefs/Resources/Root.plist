@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Settings apply immediately, no respring needed.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.qn.autopickup/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.qn.autopickup</string>
+			<key>key</key>
+			<string>Enabled</string>
+			<key>label</key>
+			<string>✅ Enabled</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Seconds to ring before answering, from 0 to 30. Default is 10 seconds.</string>
+			<key>label</key>
+			<string>⏱️ Delay</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.qn.autopickup/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>10</string>
+			<key>defaults</key>
+			<string>com.qn.autopickup</string>
+			<key>id</key>
+			<string>Delay</string>
+			<key>isNumeric</key>
+			<true/>
+			<key>key</key>
+			<string>Delay</string>
+			<key>keyboard</key>
+			<string>numbers</string>
+			<key>label</key>
+			<string>Seconds</string>
+			<key>placeholder</key>
+			<string>10</string>
+			<key>set</key>
+			<string>setDelay:specifier:</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Switch calls answered by AutoPickUp (automatically or with the volume buttons) to the speaker.</string>
+			<key>id</key>
+			<string>SpeakerGroup</string>
+			<key>label</key>
+			<string>🔊 Speaker</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.qn.autopickup/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.qn.autopickup</string>
+			<key>id</key>
+			<string>Speaker</string>
+			<key>key</key>
+			<string>Speaker</string>
+			<key>label</key>
+			<string>Use Speaker</string>
+			<key>set</key>
+			<string>setSpeaker:specifier:</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.qn.autopickup/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.qn.autopickup</string>
+			<key>id</key>
+			<string>KeepHeadphones</string>
+			<key>key</key>
+			<string>KeepHeadphones</string>
+			<key>label</key>
+			<string>Keep Headphones</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Press volume up or down to answer a ringing call instead of silencing it, for every app, even if its Auto Answer is off. Useful when the touchscreen doesn't work.</string>
+			<key>label</key>
+			<string>🔘 Volume Buttons</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.qn.autopickup/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.qn.autopickup</string>
+			<key>key</key>
+			<string>VolumeButtonsAnswer</string>
+			<key>label</key>
+			<string>Answer with Volume Buttons</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>AutoPickUp</string>
+</dict>
+</plist>
