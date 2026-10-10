@@ -81,7 +81,7 @@
 }
 
 - (void)openSourceCode:(PSSpecifier *)specifier {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/qnblackcat/AutoPickUp"] options:@{} completionHandler:nil];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/qnblackcat/AutoPickUp/tree/master"] options:@{} completionHandler:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
