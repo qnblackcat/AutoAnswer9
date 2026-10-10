@@ -7,6 +7,8 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Settings apply immediately, no respring needed.</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -26,7 +28,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Seconds to ring before answering, from 0 to 40. Default is 10 seconds.</string>
+			<string>Seconds to ring before answering, from 0 to 30. Default is 10 seconds.</string>
 			<key>label</key>
 			<string>⏱️ Delay</string>
 		</dict>
@@ -58,7 +60,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Switch auto-answered calls to the speaker.</string>
+			<string>Switch calls answered by AutoPickUp (automatically or with the volume buttons) to the speaker.</string>
 			<key>id</key>
 			<string>SpeakerGroup</string>
 			<key>label</key>
@@ -97,6 +99,28 @@
 			<string>KeepHeadphones</string>
 			<key>label</key>
 			<string>Keep Headphones</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Press volume up or down to answer a ringing call instead of silencing it, for every app, even if its Auto Answer is off. Useful when the touchscreen doesn't work.</string>
+			<key>label</key>
+			<string>🔘 Volume Buttons</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.qn.autopickup/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.qn.autopickup</string>
+			<key>key</key>
+			<string>VolumeButtonsAnswer</string>
+			<key>label</key>
+			<string>Answer with Volume Buttons</string>
 		</dict>
 	</array>
 	<key>title</key>

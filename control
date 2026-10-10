@@ -1,7 +1,7 @@
 Package: com.qn.autopickup
 Name: AutoPickUp
 Depends: mobilesubstrate, preferenceloader, firmware (>= 14.0)
-Version: 1.0.0
+Version: 1.0.1
 Architecture: iphoneos-arm
 Description: Auto answer incoming CallKit calls (Phone, FaceTime, Zalo, WhatsApp, Telegram...) after a delay, per app.
 Maintainer: Qn

@@ -4,7 +4,7 @@
 #define AA_PREFS_CHANGED_NOTIFICATION CFSTR("com.qn.autopickup/ReloadPrefs")
 
 #define AA_DEFAULT_DELAY 10.0
-#define AA_MAX_DELAY 40.0
+#define AA_MAX_DELAY 30.0
 
 typedef NS_ENUM(NSInteger, AAVideoMode) {
 	AAVideoModeDontAnswer,
@@ -12,7 +12,7 @@ typedef NS_ENUM(NSInteger, AAVideoMode) {
 	AAVideoModeAnswer,
 };
 
-// empty or not a number: the default, otherwise clamped to 0...40 seconds
+// empty or not a number: the default, otherwise clamped to 0...30 seconds
 static inline double AANormalizedDelay(id value) {
 	NSString *string = [[[value description] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 		stringByReplacingOccurrencesOfString:@"," withString:@"."]; // decimal comma on some keyboards

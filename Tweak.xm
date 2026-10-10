@@ -60,9 +60,12 @@ extern NSString *const TUCallCenterVideoCallStatusChangedNotification;
 - (void)answerCall:(TUCall *)call;
 - (void)answerWithRequest:(TUAnswerRequest *)request;
 - (TURouteController *)routeController;
+- (NSArray<TUCall *> *)currentCalls;
+- (NSArray<TUCall *> *)currentAudioAndVideoCalls;
 @end
 
 static BOOL enabled;
+static BOOL volumeButtonsAnswer;
 static double delay;
 static AAVideoMode videoMode;
 static BOOL useSpeaker;
@@ -81,6 +84,7 @@ static void LoadPrefs(void) {
 	videoMode = (AAVideoMode)[prefs[@"VideoCalls"] integerValue];
 	useSpeaker = [prefs[@"Speaker"] boolValue];
 	keepHeadphones = prefs[@"KeepHeadphones"] ? [prefs[@"KeepHeadphones"] boolValue] : YES;
+	volumeButtonsAnswer = [prefs[@"VolumeButtonsAnswer"] boolValue];
 }
 
 // the Settings switch key for the app that owns this call
@@ -184,7 +188,7 @@ static BOOL AudioOnlyAnswerSupported(void) {
 
 static void AnswerCall(TUCall *call) {
 	TUCallCenter *center = [%c(TUCallCenter) sharedInstance];
-	if (IsVideoCall(call) && videoMode == AAVideoModeAudioOnly) {
+	if (IsVideoCall(call) && videoMode == AAVideoModeAudioOnly && AudioOnlyAnswerSupported()) {
 		AALog(@"answering as audio only");
 		TUAnswerRequest *request = [[%c(TUAnswerRequest) alloc] initWithCall:call];
 		[request setDowngradeToAudio:YES];
@@ -292,6 +296,64 @@ static void ScheduleAnswerForIncomingCall(void) {
 	});
 }
 
+// a call that is already connected or on hold, besides the ringing one
+static BOOL HasOtherCall(TUCall *incoming) {
+	TUCallCenter *center = [%c(TUCallCenter) sharedInstance];
+	NSArray *calls = [center respondsToSelector:@selector(currentAudioAndVideoCalls)] ? [center currentAudioAndVideoCalls] : [center currentCalls];
+	for (TUCall *call in calls) {
+		if (![[call callUUID] isEqualToString:[incoming callUUID]] && [call status] != TUCallStatusDisconnected) return YES;
+	}
+	return NO;
+}
+
+// the ringing call a volume button press should answer, for any app regardless of its Auto Answer mode.
+// None while already on a call, the buttons change the call volume there
+static TUCall *CallToAnswerWithVolumeButton(void) {
+	if (!enabled || !volumeButtonsAnswer) return nil;
+	TUCall *call = IncomingCall();
+	if (!call || ![call isIncoming] || [call status] != TUCallStatusRinging || HasOtherCall(call)) return nil;
+	return call;
+}
+
+// index 0 volume up, 1 volume down: the press answered a call, so its release is kept from iOS too
+static BOOL volumePressAnswered[2];
+
+// returns NO when iOS shouldn't see this press / release
+static BOOL HandleVolumePress(int button, id recognizer) {
+	// iOS 14 may pass something other than a gesture recognizer, then every call is a new press
+	UIGestureRecognizerState state = [recognizer respondsToSelector:@selector(state)] ? [(UIGestureRecognizer *)recognizer state] : UIGestureRecognizerStateBegan;
+
+	if (state == UIGestureRecognizerStateBegan) {
+		volumePressAnswered[button] = NO;
+		TUCall *call = CallToAnswerWithVolumeButton();
+		if (!call) return YES;
+
+		AALog(@"volume %@ pressed, answering %@", button == 0 ? @"up" : @"down", KeyForCall(call));
+		volumePressAnswered[button] = YES;
+		AnswerCall(call);
+		if (useSpeaker) SwitchToSpeaker(call, 10);
+		return NO;
+	}
+
+	if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled || state == UIGestureRecognizerStateFailed) {
+		BOOL answered = volumePressAnswered[button];
+		volumePressAnswered[button] = NO;
+		return !answered;
+	}
+
+	return !volumePressAnswered[button];
+}
+
+// a volume press while ringing normally silences the ringer, answer instead
+%hook SBVolumeHardwareButton
+- (void)volumeIncreasePress:(id)recognizer {
+	if (HandleVolumePress(0, recognizer)) %orig;
+}
+- (void)volumeDecreasePress:(id)recognizer {
+	if (HandleVolumePress(1, recognizer)) %orig;
+}
+%end
+
 static void PrefsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
 	LoadPrefs();
 }
@@ -299,6 +361,7 @@ static void PrefsChanged(CFNotificationCenterRef center, void *observer, CFStrin
 %ctor {
 	scheduledCalls = [NSMutableSet set];
 	LoadPrefs();
+	%init;
 
 	// settings apply immediately, no respring needed
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, PrefsChanged, AA_PREFS_CHANGED_NOTIFICATION, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);

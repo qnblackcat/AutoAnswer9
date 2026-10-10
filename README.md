@@ -7,10 +7,9 @@ Automatically answers incoming calls on jailbroken iOS 14+ after a delay, with p
 - Works with Telephony, FaceTime and CallKit apps: Zalo, WhatsApp, Messenger, Telegram, Viber, Signal, LINE
 - Per-app mode: **Off** (default), **Everyone** (with excluded contacts) or **Only Specific Contacts**
 - Match contacts by phone number, caller name, or pick them from Contacts (Telephony / FaceTime)
-- Delay from 0 to 40 seconds (default 10)
-- Optionally switch auto-answered calls to the speaker, keeping headphones if connected
-- FaceTime video calls: don't answer, answer as audio only, or answer
-- Settings apply immediately, no respring needed
+- Delay from 0 to 30 seconds
+- Optionally switch answered calls to the speaker, keeping headphones if connected
+- Optionally answer a ringing call with the volume up or down button instead of silencing it, handy when the touchscreen is broken
 
 Only apps that ring through CallKit (the system incoming call screen) can be answered. Some apps report a phone number, others only a caller name, so if one doesn't match, try the other.
 
@@ -32,4 +31,4 @@ Based on [AutoAnswer9](https://github.com/leftyfl1p/AutoAnswer9) by leftyfl1p. T
 
 ## License
 
-[GPL-3.0](LICENSE)
+[MIT](LICENSE)

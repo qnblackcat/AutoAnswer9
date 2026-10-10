@@ -23,7 +23,7 @@
 		if (![AAGetPref(@"Speaker") boolValue]) {
 			[specifiers removeObject:[self specifierForID:@"KeepHeadphones" in:specifiers]];
 		} else {
-			[[self specifierForID:@"SpeakerGroup" in:specifiers] setProperty:@"Switch auto-answered calls to the speaker. If Keep Headphones is on, calls stay on connected Bluetooth or wired headphones." forKey:@"footerText"];
+			[[self specifierForID:@"SpeakerGroup" in:specifiers] setProperty:@"Switch calls answered by AutoPickUp (automatically or with the volume buttons) to the speaker. If Keep Headphones is on, calls stay on connected Bluetooth or wired headphones." forKey:@"footerText"];
 		}
 
 		[specifiers addObject:[PSSpecifier groupSpecifierWithName:@"📱 Apps"]];
@@ -43,10 +43,10 @@
 			[specifiers addObject:spec];
 		}
 
-		PSSpecifier *footerGroup = [PSSpecifier emptyGroupSpecifier];
-		[footerGroup setProperty:@"© 2026 Qn (Đạt Nguyễn)" forKey:@"footerText"];
-		[specifiers addObject:footerGroup];
-		PSSpecifier *source = [PSSpecifier preferenceSpecifierNamed:@"💻 Source Code" target:self set:nil get:nil detail:nil cell:PSButtonCell edit:nil];
+		PSSpecifier *sourceGroup = [PSSpecifier groupSpecifierWithName:@"💻 Source Code"];
+		[sourceGroup setProperty:@"© 2026 Qn (Đạt Nguyễn)" forKey:@"footerText"];
+		[specifiers addObject:sourceGroup];
+		PSSpecifier *source = [PSSpecifier preferenceSpecifierNamed:@"GitHub" target:self set:nil get:nil detail:nil cell:PSButtonCell edit:nil];
 		source.buttonAction = @selector(openSourceCode:);
 		[specifiers addObject:source];
 
