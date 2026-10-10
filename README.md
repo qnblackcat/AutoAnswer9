@@ -2,6 +2,8 @@
 
 Automatically answers incoming calls on jailbroken iOS 14+ after a delay, with per-app and per-contact rules.
 
+<img width="1179" height="2556" alt="image" src="https://github.com/user-attachments/assets/22f8b8f8-f1d4-4083-993c-5acbf3eaa990" />
+
 ## Features
 
 - Works with Telephony, FaceTime and CallKit apps: Zalo, WhatsApp, Messenger, Telegram, Viber, Signal, LINE
